@@ -31,4 +31,7 @@ public interface WarehouseAreaMapper extends BaseMapper<WarehouseArea> {
     })
     @Override
     <P extends IPage<WarehouseArea>> P selectPage(P page, @Param("ew") Wrapper<WarehouseArea> queryWrapper);
+
+    @Override
+    int update(WarehouseArea entity,@Param("ew") Wrapper<WarehouseArea> updateWrapper);
 }

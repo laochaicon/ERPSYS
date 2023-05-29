@@ -35,17 +35,21 @@ public class WarehouseController {
         return ResultData.ok("条件分页查询成功", pageInfo);
     }
 
+    /*添加或修改*/
     @PostMapping("/warehouse")
     public ResultData saveOrUpdate(Warehouse warehouse) {
         warehouseService.saveOrUpdate(warehouse);
         return ResultData.ok("操作成功");
     }
 
+    /*删除*/
     @DeleteMapping("/warehouse")
     public ResultData delete(Warehouse warehouse) {
         warehouseService.removeById(warehouse);
         return ResultData.ok("删除成功");
     }
+
+    /*根据id删除*/
     @DeleteMapping("/warehouse/{id}")
     public ResultData delete(@PathVariable("id")Integer id) {
         boolean b=warehouseService.removeById(id);

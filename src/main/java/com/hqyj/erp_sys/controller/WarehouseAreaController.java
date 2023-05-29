@@ -26,6 +26,7 @@ public class WarehouseAreaController {
     @Autowired
     private IWarehouseAreaService waService;
 
+    /*分页条件查询*/
     @GetMapping("/warehouseArea")
     public ResultData queryByCondition(@RequestParam(defaultValue = "1") Integer page,
                                        @RequestParam(defaultValue = "5") Integer limit,
@@ -38,4 +39,29 @@ public class WarehouseAreaController {
         waService.page(pageInfo,wrapper);
         return ResultData.ok("条件分页查询成功", pageInfo);
     }
+
+    /*添加或修改*/
+    @PostMapping("/warehouseArea")
+    public ResultData saveOrUpdate(WarehouseArea warehouseArea){
+        waService.saveOrUpdate(warehouseArea);
+        return ResultData.ok("添加或修改成功");
+    }
+    /*删除*/
+    @DeleteMapping("/warehouseArea")
+    public ResultData delete(WarehouseArea warehouseArea){
+        waService.removeById(warehouseArea );
+        return ResultData.ok("删除成功");
+    }
+
+    /*根据id删除*/
+    @DeleteMapping("/warehouseArea/{id}")
+    public ResultData delete(@PathVariable("id")Integer id) {
+        boolean b=waService.removeById(id);
+        if(b){
+            return ResultData.ok("删除成功");
+        }
+        return ResultData.error(1,"删除失败，请检查ID是否存在");
+    }
+
+
 }

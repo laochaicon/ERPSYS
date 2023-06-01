@@ -1,5 +1,6 @@
 package com.hqyj.erp_sys.mapper;
 
+import com.hqyj.erp_sys.entity.Warehouse;
 import com.hqyj.erp_sys.vo.DataOfECharts;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,6 @@ public interface EchartsMapper {
             "where wh.wh_id=wa.wh_id and wa_status=1 and wh.wh_id=#{whId}")
     List<DataOfECharts> getPieData(Integer whId);
 
+    @Select("select distinct wh.wh_id,wh_name from warehouse wh,warehouse_area wa where wh.wh_id=wa.wh_id ")
+    List<Warehouse> getUseWarehouse();
 }

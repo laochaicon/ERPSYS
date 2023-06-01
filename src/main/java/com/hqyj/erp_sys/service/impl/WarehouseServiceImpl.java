@@ -1,10 +1,13 @@
 package com.hqyj.erp_sys.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hqyj.erp_sys.entity.Warehouse;
 import com.hqyj.erp_sys.mapper.WarehouseMapper;
 import com.hqyj.erp_sys.service.IWarehouseService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hqyj.erp_sys.vo.CanUseWareHouse;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +20,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse> implements IWarehouseService {
 
+    @Override
+    public List<CanUseWareHouse> getCanUseWarehouse() {
+        return baseMapper.getCanUseWarehouse();
+    }
 }

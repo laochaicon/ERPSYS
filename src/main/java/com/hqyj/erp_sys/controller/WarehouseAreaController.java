@@ -2,14 +2,11 @@ package com.hqyj.erp_sys.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hqyj.erp_sys.entity.Warehouse;
 import com.hqyj.erp_sys.entity.WarehouseArea;
 import com.hqyj.erp_sys.service.IWarehouseAreaService;
-import com.hqyj.erp_sys.service.IWarehouseService;
 import com.hqyj.erp_sys.util.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
 
 /**
  * <p>
@@ -61,6 +58,15 @@ public class WarehouseAreaController {
             return ResultData.ok("删除成功");
         }
         return ResultData.error(1,"删除失败，请检查ID是否存在");
+    }
+
+    @PutMapping("/changeStatus")
+    public ResultData changeStatus(Integer waId, Integer status) {
+        WarehouseArea wa = new WarehouseArea();
+        wa.setWaId(waId);
+        wa.setWaStatus(Math.abs(1 - status));
+        waService.updateById(wa);
+        return ResultData.ok("操作成功");
     }
 
 

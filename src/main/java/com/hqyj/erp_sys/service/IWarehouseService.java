@@ -1,7 +1,10 @@
 package com.hqyj.erp_sys.service;
 
-import com.hqyj.erp_sys.entity.Warehouse;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hqyj.erp_sys.entity.Warehouse;
+import com.hqyj.erp_sys.vo.CanUseWareHouse;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IWarehouseService extends IService<Warehouse> {
 
+    List<CanUseWareHouse> getCanUseWarehouse();
 }

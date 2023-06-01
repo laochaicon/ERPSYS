@@ -44,6 +44,11 @@ public class EChartsController {
     public ResultData getPirData(@PathVariable("id") Integer whId){
         return ResultData.ok("饼图数据",echartsMapper.getPieData(whId));
     }
+    @GetMapping("/getUseWarehouse")
+    public ResultData getUseWarehouse(){
+        return ResultData.ok("已分区的仓库",echartsMapper.getUseWarehouse());
+    }
+
 
 
 }

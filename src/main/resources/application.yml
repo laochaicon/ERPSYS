@@ -24,6 +24,11 @@ spring:
   redis:
     port: 6379
     host: localhost
+  mail:
+    host: smtp.qq.com
+    username: 2086221580@qq.com
+    password: ddpcntvjsqtsbadf
+
 
 
 #MyBatis配置

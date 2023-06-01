@@ -54,6 +54,19 @@ public class SysUserController {
 
     @Autowired
     private IMailService mailService;
+    private String captcha;
+
+    //验证码
+    @PostMapping("/mailLogin")
+    public  ResultData mailLogin(String mail,String captcha ){
+        if(this.captcha !=null && this.captcha.equalsIgnoreCase(captcha)){
+            QueryWrapper wrapper = new QueryWrapper<>();
+            wrapper.eq("email",mail);
+            return ResultData.ok("登录成功",sysUserService.getOne(wrapper));
+        }
+        return ResultData.error(1,"验证码错误");
+    }
+
     @RequestMapping("/getCaptcha")
     public ResultData checkMail(String mail){
         QueryWrapper wrapper = new QueryWrapper<>();
@@ -61,9 +74,10 @@ public class SysUserController {
         if(sysUserService.getOne(wrapper)==null){
             return ResultData.error(1,"该邮箱不存在");
         }else {
-            String captcha= UUID.randomUUID().toString().substring(0,6);
-            captcha="验证码为《"+captcha+"》";
-            mailService.sendMail("登录验证码",captcha,mail);
+            //使用UUID截取6位
+            captcha= UUID.randomUUID().toString().substring(0,6);
+            String text="验证码为："+captcha;
+            mailService.sendMail("登录验证码",text,mail);
             return  ResultData.ok("验证码已发送至"+mail);
         }
     }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hqyj.erp_sys.entity.SysUser;
 import com.hqyj.erp_sys.service.IMailService;
 import com.hqyj.erp_sys.service.ISysUserService;
+import com.hqyj.erp_sys.util.JWTUtil;
 import com.hqyj.erp_sys.util.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
@@ -27,6 +28,8 @@ import java.util.UUID;
 public class SysUserController {
     @Autowired
     private ISysUserService sysUserService;
+    @Autowired
+    private JWTUtil jwtUtil;
 
     @PostMapping("/login")
     public ResultData login(SysUser sysUser){
@@ -40,15 +43,15 @@ public class SysUserController {
         SysUser one = sysUserService.getOne(wrapper);
 
         if(one!=null){
-            System.out.println(one);
-            return ResultData.ok("登录成功");
+            return ResultData.ok("登录成功",jwtUtil.createToken(one));
         }
         return ResultData.error(1,"用户名或密码错误");
 
     }
 
-    /*public static void main(String[] args) {
-        String s=DigestUtils.md5DigestAsHex("admin".getBytes());
+   /* public static void main(String[] args) {
+        String s=DigestUtils.md5DigestAsHex("guest".getBytes());
+        //获取加密密码
         System.out.println(s);
     }*/
 

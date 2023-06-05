@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hqyj.erp_sys.entity.Warehouse;
 import com.hqyj.erp_sys.service.IWarehouseService;
+import com.hqyj.erp_sys.util.Auth;
 import com.hqyj.erp_sys.util.ResultData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @Api(tags = "仓库模块")
+@Auth(roles = "ADMIN")
 public class WarehouseController {
     @Autowired
     private IWarehouseService warehouseService;

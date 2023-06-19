@@ -28,6 +28,9 @@ spring:
     host: smtp.qq.com
     username: 2086221580@qq.com
     password: ddpcntvjsqtsbadf
+  web:
+    resources:
+      static-locations: file:D:\upload
 
 
 

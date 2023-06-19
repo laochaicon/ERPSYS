@@ -21,19 +21,29 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //判断当前的请求是否属于本项目中的某个方法
         if (handler instanceof HandlerMethod) {
+            //获取请求时携带的token
             String token = request.getHeader("token");
-            //if (token == null || "".equals(token)) {
+            //如果没有携带token，不允许继续访问，给前端返回一个结果
             if (token == null || "".equals(token)) {
-                String resultJson = jsonTool.writeValueAsString(ResultData.error(-1, "请登录（token不存在）"));
+                //构造前端所需ResultData对象对应的JSON字符串
+                String resultJson = jsonTool.writeValueAsString(ResultData.error(-1, "请登录(token不存在)"));
+                //将JSON字符串写到响应对象中
                 response.getOutputStream().write(resultJson.getBytes("utf-8"));
+                //设置响应类型为JSON
                 response.setContentType("application/json;charset=utf-8");
                 return false;
             }
+            //如果携带token,解析token
             ResultData resultData = jwtUtil.validateToken(token);
+            //如果验证失败，返回给前端对应的内容
             if (resultData.getCode() != 0) {
+                //同样需要转换为JSON格式响应
                 String resultJson = jsonTool.writeValueAsString(resultData);
+                //将JSON字符串写到响应对象中
                 response.getOutputStream().write(resultJson.getBytes("utf-8"));
+                //设置响应类型为JSON
                 response.setContentType("application/json;charset=utf-8");
                 return false;
             }
@@ -66,8 +76,6 @@ public class AuthInterceptor implements HandlerInterceptor {
                     return false;
                 }
             }
-
-
         }
         //如果通过验证，拦截器放行
         return true;

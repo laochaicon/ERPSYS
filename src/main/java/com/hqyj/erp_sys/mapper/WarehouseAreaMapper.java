@@ -6,6 +6,8 @@ import com.hqyj.erp_sys.entity.WarehouseArea;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 
+import java.io.Serializable;
+
 /**
  * <p>
  *  Mapper 接口
@@ -34,4 +36,7 @@ public interface WarehouseAreaMapper extends BaseMapper<WarehouseArea> {
 
     @Override
     int update(WarehouseArea entity,@Param("ew") Wrapper<WarehouseArea> updateWrapper);
+
+    @Select("select wa.*,wh_name as 'wh.whName' from warehouse_area wa ,warehouse wh where wa.wh_id=wh.wh_id and wa_id=#{id}")
+    WarehouseArea selectById(Serializable id);
 }

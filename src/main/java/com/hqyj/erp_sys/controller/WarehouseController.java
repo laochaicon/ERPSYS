@@ -11,10 +11,13 @@ import com.hqyj.erp_sys.util.ResultData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
+
 
 /**
  * <p>
@@ -27,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @Api(tags = "仓库模块")
-@Auth(roles = "ADMIN")
+@Auth(roles = "ADMIN,USER")
 public class WarehouseController {
     @Autowired
     private IWarehouseService warehouseService;
@@ -37,6 +40,20 @@ public class WarehouseController {
     //执行Redis命令的工具对象
     private RedisTemplate redisTemplate;
 
+    //创建记录日志的对象，参数是仓前类的字节码
+    Logger logger = LoggerFactory.getLogger(WarehouseController.class);
+
+
+    /*
+     * 假设warehouse模块首页数据(前5条)会被经常访问，
+     * 为了减少对Mysql的访问，加快访问速度，将数据保存到redis
+     * 流程：
+     * 第一次访问，查询mysql，将结果以键值对的形式缓存到redis中，
+     * 之后访问，使用键判断redis中是否存在，如果存在直接获取
+     *
+     * 存入时使用string类型，要将保存的结果转换为JSON字符串
+     * 获取到的也是JSON字符串，获取后转换为对象
+     * */
     @ApiOperation(value = "条件分页查询所有仓库", notes = "参数page默认为1,size默认为5,keyword默认空字符串")
     @GetMapping("/warehouse")
     public ResultData queryByCondition(@RequestParam(defaultValue = "1") @ApiParam("当前页") Integer page,
@@ -69,6 +86,8 @@ public class WarehouseController {
             //非首页数据查询mysql
             warehouseService.page(pageInfo, wrapper);
         }
+
+        logger.info("info级别日志--仓库条件分页查询模块被调用");
         return ResultData.ok("条件分页查询成功", pageInfo);
     }
 
@@ -104,6 +123,11 @@ public class WarehouseController {
     public ResultData canUseWarehouse() {
         return ResultData.ok("查询可用仓库", warehouseService.getCanUseWarehouse());
     }
+
+    /*@Scheduled(cron = "0/5 * * 4W * *")
+    public void timeTest(){
+        System.out.println("定时任务执行");
+    }*/
 
 
 }

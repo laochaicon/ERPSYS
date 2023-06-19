@@ -1,6 +1,7 @@
 package com.hqyj.erp_sys.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -54,6 +55,13 @@ public class Material implements Serializable {
      * 所在库区
      */
     private Integer waId;
+    /*
+    * 物料图片
+    * */
+    private String img;
+
+    @TableField(exist = false)
+    private WarehouseArea wa;
 
 
 }

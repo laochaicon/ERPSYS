@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--    控制台日志配置-->
+    <!--    name是自己起名，在后面的appender-ref标签中会使用到该名称， class是固定不变的-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--            日志的输出的格式-->
+            <pattern>
+                <![CDATA[%n[%d{yyyy-MM-dd HH:mm:ss.SSS}] [level: %p] [Thread: %t] [ Class:%c >> Method: %M:%L ]%n%p:%m%n]]></pattern>
+        </encoder>
+    </appender>
+
+    <!--    文件日志的配置-->
+    <appender name="LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>
+                <![CDATA[%n[%d{yyyy-MM-dd HH:mm:ss.SSS}] [level: %p] [Thread: %t] [ Class:%c >> Method: %M:%L ]%n%p:%m%n]]></pattern>
+        </encoder>
+        <!--部署注释：原<file>/root/logs/erp.log</file>-->
+        <!-- <file>/root/logs/erp.log</file>-->
+        <!--        日志文件的策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--            用年月日加序号来命名滚动日志文件-->
+            <!--部署修改：原/root/logs/-->
+            <fileNamePattern>root/logs/erp.-%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <!-- 每个日志文件的最大容量 -->
+            <maxFileSize>10MB</maxFileSize>
+            <!--            保留历史日志文件的个数-->
+            <maxHistory>30</maxHistory>
+            <!--            <totalSizeCap>10GB</totalSizeCap>-->
+        </rollingPolicy>
+    </appender>
+
+    <!--    设置项目中用到的第三方包的日志的输出的等级-->
+    <logger name="springfox" level="warn"/>
+    <logger name="com.zaxxer" level="warn"/>
+
+    <!--    使用哪种日志，以及日志输出的等级
+            level就是日志等级，常用的等级由低到高依次： debug ->  info  -> warn  ->  error
+    -->
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOG_FILE"/>
+    </root>
+</configuration>

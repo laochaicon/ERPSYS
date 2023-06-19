@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hqyj.erp_sys.entity.WarehouseArea;
 import com.hqyj.erp_sys.service.IWarehouseAreaService;
+import com.hqyj.erp_sys.util.Auth;
 import com.hqyj.erp_sys.util.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @CrossOrigin
 @RestController
+@Auth(roles = "ADMIN,USER")
 public class WarehouseAreaController {
 
     @Autowired
